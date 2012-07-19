@@ -1,7 +1,5 @@
 # coding: utf-8
 require "active_support/core_ext"
-require "active_support/core_ext/module"
-require "active_support/core_ext/array"
 
 module ConstEnum
   class Base
