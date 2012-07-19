@@ -75,8 +75,8 @@ validates :inclusionで利用することができる。
 constメソッドで定義される定数クラスはEnumerableモジュールをインクルードしているため、
 collection_selectにそのまま渡すことができる。
 値はvalue、ラベル名labelメソッドを指定する。
-  
-  form_for newhoge do |f|
+  user = User.new
+  form_for user do |f|
     f.collection_select(:status, User::STATUS, :value, :label)
   end
 
@@ -197,6 +197,7 @@ collection_selectの際に表示したいラベル名を複数パターン用意
   end
 
   # 選択肢に上で定義したcodeメソッドの値を使用する
+  user = User.new
   form_for user do |f|
     f.collection_select(:status, User::STATUS, :value, :code)
     f.collection_select(:status, User::STATUS, :value, :label2)
