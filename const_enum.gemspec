@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "const_enum"
-  s.version = "1.0.1"
+  s.version = "1.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["yuki teraoka"]
@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
     "lib/const_enum/with_i18n.rb",
     "spec/active_record/active_record_spec.rb",
     "spec/const_enum_spec.rb",
+    "spec/labels.yml",
     "spec/spec_helper.rb",
     "spec/support/database_cleaner.rb",
     "spec/support/models.rb"
