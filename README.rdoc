@@ -1,0 +1,201 @@
+= const_enum
+
+ActiveRecordの定数クラス、定数名アクセサ、NamedScope、定数値判定メソッド等を簡単なDSLで作成するためのプラグイン。
+rails3.xに対応しています。
+
+
+== 設定
+
+=== 定数のラベル定義ファイルを作成
+  # config/local/ja/labels.yml
+   labels:
+     user:
+       status:
+         disable: "無効"
+         enable:  "有効"
+
+=== constメソッドのブロック内で定数を定義
+  class User < ActiveRecord::Base
+    const :STATUS do
+      ENABLE    1
+      DISABLE   0
+    end
+  end
+  
+== 使用例
+
+=== 定数値へのアクセス
+  User::STATUS::ENABLE  # 1
+  User::STATUS::DISABLE # 0
+
+=== ActiveRecordの拡張
+  # データを作成
+  taro   = User.create(:name => 'taro'  , :status => Hoge::STATUS::ENABLE)
+  hanako = User.create(:name => 'hanako', :status => Hoge::STATUS::DISABLE)
+  
+  # {ATTR}_labelメソッドが定義される
+  taro.status_label   # "有効"
+  hanako.status_label # "無効"
+  
+  # {ATTR}_{CONST}?メソッドが定義される
+  taro.status_enable?  # true
+  taro.status_disable? # false
+  
+  # {ATTR}_was_{CONST}? ,  #{ATTR}_{CONST}_wasメソッドが定義される
+  taro.status = User::STATUS::DISABLE
+  taro.status_enable?      # false
+  taro.was_status_enable?  # true
+  taro.status_label_was?   # 有効
+  
+  # named_scopeが定義される
+  User.status_enable.all
+  
+=== Validationでの利用
+  
+constメソッドで定義される定数クラスはinclude?メソッドを実装しているため、
+validates_inclusion_ofに渡すことができる。
+  
+  class User < ActiveRecord::Base
+    const :STATUS do
+      ENABLE    1
+      DISABLE   0
+    end
+    validates :status, :inclusion => STATUS
+  end
+  
+=== Viewでの利用
+  
+constメソッドで定義される定数クラスはEnumerableモジュールをインクルードしているため、
+collection_selectにそのまま渡すことができる。
+値はvalue、ラベル名labelメソッドを指定する。
+  
+  form_for newhoge do |f|
+    f.collection_select(:status, User::STATUS, :value, :label)
+  end
+
+=== 定数オブジェクトへのアクセス
+
+{Class}::{ATTR}[value]で各定数オブジェクトにアクセス可能
+
+  User::STATUS[1].class # User::STATUS
+  User::STATUS[1].value # 1
+  User::STATUS[1].label # "有効"
+
+== ActiveRecord::Base.constメソッドのオプション
+
+=== prefix: NamedScope、属性値テストメソッドの名前を変更する
+
+constメソッドにprefixオプションを与えることで、作成されるNamedScope、属性値検証メソッドの
+名前（プレフィクス）を変更することができる。
+定数値名がモデル内で衝突しない場合は、prefixに空文字を与えるのが使いやすい。
+
+  class User < ActiveRecord::Base
+    const :STATUS, :prefix => '' do
+      ENABLE    1
+      DISABLE   0
+    end
+  end
+  
+  user = User.enable.first
+  user.enable?  # true
+  user.disable? # false
+
+
+=== scope: NamedScopeを作成しない
+
+値が直接DBにない場合、scopeオプションにfalseを与え、
+定数値を返すメソッドを定義することで各種メソッドを利用できる。
+
+  class Entry < ActiveRecord::Base
+    # 公開状態[予約、公開、終了]
+    const :STATUS, :scope => false, :prefix => '' do
+      SCHEDULED 1
+      OPENED    2
+      FINISHED  3
+    end
+    
+    scope :scheduled ,lambda {time = Time.now; where('start_at > ? ', time) }
+    scope :opened,    lambda {time = Time.now; where('start_at <= ? AND end_at > ?', time, time) }
+    scope :finished,  lambda {time = Time.now; where('end_at <= ? ', time) }
+
+    # 公開状態
+    def status
+      now = Time.now
+      case
+      when start_at > now
+        STATUS::SCHEDULED
+      when (end_at >= now and start_at <= now)
+        STATUS::OPENED
+      else
+        STATUS::FINISHED
+      end
+    end
+    
+    # 変更前公開状態
+    # status_label_wasやwas_opened?などを使わない場合は不要
+    def status_was
+      now = Time.now
+      case
+      when start_at_was > now
+        STATUS::SCHEDULED
+      when (end_at_was >= now and start_at_was <= now)
+        STATUS::OPENED
+      else
+        STATUS::FINISHED
+      end
+    end
+  end
+
+  entry = Entry.create(:start_at => Time.now, :end_at => Time.now + 10.days)
+  entry.status_label
+  entry.active?
+
+=== predicate: 属性値テストメソッドを作成しない
+
+predicateにfalseを与えると、属性値テストメソッドの作成が行われない。
+
+
+=== extensions: 定数オブジェクトに追加のメソッドを定義する
+
+ブロック内にメソッド定義を書くと、STAUTS[]やSTATUS.eachの際に取得できる定数オブジェクトに対してメソッドが定義される。
+collection_selectの際に表示したいラベル名を複数パターン用意する場合などに利用可能。
+
+  class User < ActiveRecord::Base
+    const :STATUS do
+      ENABLE    1
+      DISABLE   0
+      # 定数オブジェクトには以下のメソッドが存在するため、これらのメソッドを自由に呼び出すことができる
+      # key   名前空間（クラス、モジュール名）を含まない各定数名のシンボル
+      # label ラベル名
+      # value 定数値
+      def code
+        '%05d'%value
+      end
+      # I18nを使ってみる。
+      def label2
+        I18n.t(key.to_s.downcase, :scope=> 'label2.modelname')
+      end
+    end
+  end
+
+  # 選択肢に上で定義したcodeメソッドの値を使用する
+  form_for enable_piyo do |f|
+    f.collection_select(:status, User::STATUS, :value, :code)
+    f.collection_select(:status, User::STATUS, :value, :label2)
+  end
+
+== その他
+
+=== ラベル名を取得するメソッド名を変更する
+
+ConstEnum::ActiveRecord.label_suffixオプションを設定することで、
+ラベル名を取得すためのメソッドの名前（サフィックス）を変更することができる。
+
+  # config/initializers/const_enum.rb
+  require 'const_enum.rb'
+  ConstEnum::ActiveRecord.label_suffix = '_name' # ラベル名を返すメソッドにつけるサフィックスの指定
+
+
+== Copyright
+
+Copyright (c) 2012 SynergyMarketing.inc. See LICENSE for details.
