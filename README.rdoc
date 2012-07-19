@@ -199,7 +199,7 @@ ConstEnum::ActiveRecord.label_suffixオプションを設定することで、
 ラベル名を取得すためのメソッドの名前（サフィックス）を変更することができる。
 
   # config/initializers/const_enum.rb
-  require 'const_enum.rb'
+  require 'const_enum'
   ConstEnum::ActiveRecord.label_suffix = '_name' # ラベル名を返すメソッドにつけるサフィックスの指定
 
 
