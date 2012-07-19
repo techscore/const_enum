@@ -53,7 +53,7 @@ rails3.xに対応しています。
 === Validationでの利用
   
 constメソッドで定義される定数クラスはinclude?メソッドを実装しているため、
-validates_inclusion_ofに渡すことができる。
+validates :inclusionで利用することができる。
   
   class User < ActiveRecord::Base
     const :STATUS do
