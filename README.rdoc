@@ -92,7 +92,7 @@ collection_selectにそのまま渡すことができる。
 
 === prefix: NamedScope、属性値テストメソッドの名前を変更する
 
-constメソッドにprefixオプションを与えることで、作成されるNamedScope、属性値検証メソッドの
+constメソッドにprefixオプションを指定することで、作成されるNamedScope、属性値検証メソッドの
 名前（プレフィクス）を変更することができる。
 定数値名がモデル内で衝突しない場合は、prefixに空文字を与えるのが使いやすい。
 
@@ -110,7 +110,7 @@ constメソッドにprefixオプションを与えることで、作成される
 
 === scope: NamedScopeを作成しない
 
-値が直接DBにない場合、scopeオプションにfalseを与え、
+値が直接DBにない場合、scopeオプションでfalseを指定すると、
 定数値を返すメソッドを定義することで各種メソッドを利用できる。
 
   class Entry < ActiveRecord::Base
@@ -159,9 +159,20 @@ constメソッドにprefixオプションを与えることで、作成される
 
 === predicate: 属性値テストメソッドを作成しない
 
-predicateにfalseを与えると、属性値テストメソッドの作成が行われない。
+predicateオプションでfalseを指定すると、属性値テストメソッドの作成が行われない。
 
+=== i18n: ラベル名にi18nを利用しない
 
+i18nオプションでfalseを指定すると、constメソッド内の定数値定義の後にラベル名を与えることでラベル名を定義することができる。
+
+  # app/models/user.rb
+  class User < ActiveRecord::Base
+    const :STATUS, :i18n => false do
+      ENABLE    1, "有効"
+      DISABLE   0, "無効"
+    end
+  end
+  
 === extensions: 定数オブジェクトに追加のメソッドを定義する
 
 ブロック内にメソッド定義を書くと、STAUTS[]やSTATUS.eachの際に取得できる定数オブジェクトに対してメソッドが定義される。
@@ -196,7 +207,8 @@ collection_selectの際に表示したいラベル名を複数パターン用意
 === I18nを利用しない
 
 ConstEnum::ActiveRecord.i18nにfalseを設定すると、
-constメソッドでラベル名を定義することができる。
+constメソッド内でラベル名を定義することができる。
+constメソッドのi18nオプションと同様
 
   # config/initializers/const_enum.rb
   ConstEnum::ActiveRecord.i18n = false
