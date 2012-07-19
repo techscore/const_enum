@@ -1,0 +1,6 @@
+en:
+  labels:
+    user:
+      status:
+        active: Active
+        resigned: Resigned

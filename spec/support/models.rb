@@ -33,8 +33,7 @@ class CreateAllTables < ActiveRecord::Migration
   end
 end
 
-I18n.backend = I18n::Backend::KeyValue.new({})
-I18n.backend.store_translations :en, :labels =>{:user =>{:status => { :active => "Active", :resigned => "Resigned" }}}
+I18n.load_path << File.join(File.dirname(__FILE__), '..', 'labels.yml')
 
 ActiveRecord::Migration.verbose = false
 CreateAllTables.up

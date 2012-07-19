@@ -11,15 +11,13 @@ module ConstEnum
       self.i18n_options = DEFAULT_OPTIONS.dup
     end
     
-    module InstanceMethods
-      def label
-        I18n.t(build_key(@attributes.second || key.to_s.downcase))
-      end
-      
-      private
-      def build_key(key)
-        "#{self.class.i18n_options[:key]}.#{key}"
-      end
+    def label
+      I18n.t(build_key(@attributes.second || key.to_s.downcase))
+    end
+    
+    private
+    def build_key(key)
+      "#{self.class.i18n_options[:key]}.#{key}"
     end
   
     module ClassMethods
