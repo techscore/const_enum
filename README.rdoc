@@ -193,13 +193,28 @@ collection_selectの際に表示したいラベル名を複数パターン用意
 
 == その他
 
+=== I18nを利用しない
+
+ConstEnum::ActiveRecord.i18nにfalseを設定すると、
+constメソッドでラベル名を定義することができる。
+
+  # config/initializers/const_enum.rb
+  ConstEnum::ActiveRecord.i18n = false
+  
+  # app/models/user.rb
+  class User < ActiveRecord::Base
+    const :STATUS, :prefix => '' do
+      ENABLE    1, "有効"
+      DISABLE   0, "無効"
+    end
+  end
+  
 === ラベル名を取得するメソッド名を変更する
 
-ConstEnum::ActiveRecord.label_suffixオプションを設定することで、
+ConstEnum::ActiveRecord.label_suffixを設定することで、
 ラベル名を取得すためのメソッドの名前（サフィックス）を変更することができる。
 
   # config/initializers/const_enum.rb
-  require 'const_enum'
   ConstEnum::ActiveRecord.label_suffix = '_name' # ラベル名を返すメソッドにつけるサフィックスの指定
 
 
