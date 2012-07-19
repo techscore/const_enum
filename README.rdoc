@@ -197,7 +197,7 @@ collection_selectの際に表示したいラベル名を複数パターン用意
   end
 
   # 選択肢に上で定義したcodeメソッドの値を使用する
-  form_for enable_piyo do |f|
+  form_for user do |f|
     f.collection_select(:status, User::STATUS, :value, :code)
     f.collection_select(:status, User::STATUS, :value, :label2)
   end
