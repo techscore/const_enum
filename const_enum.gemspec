@@ -16,6 +16,26 @@ Gem::Specification.new do |s|
     "LICENSE.txt",
     "README.rdoc"
   ]
+  s.files = [
+    ".document",
+    ".rspec",
+    "Gemfile",
+    "LICENSE.txt",
+    "README.rdoc",
+    "Rakefile",
+    "VERSION",
+    "const_enum.gemspec",
+    "lib/const_enum.rb",
+    "lib/const_enum/active_record.rb",
+    "lib/const_enum/base.rb",
+    "lib/const_enum/kernel.rb",
+    "lib/const_enum/with_i18n.rb",
+    "spec/active_record/active_record_spec.rb",
+    "spec/const_enum_spec.rb",
+    "spec/spec_helper.rb",
+    "spec/support/database_cleaner.rb",
+    "spec/support/models.rb"
+  ]
   s.homepage = "http://github.com/techscore/const_enum"
   s.licenses = ["BSD"]
   s.require_paths = ["lib"]
