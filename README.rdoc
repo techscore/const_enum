@@ -1,7 +1,7 @@
 = const_enum
 
 ActiveRecordの定数クラス、定数名アクセサ、NamedScope、定数値判定メソッド等を簡単なDSLで作成するためのライブラリ。
-rails3.xに対応しています。
+ActiveRecord3.xに対応しています。
 
 == インストール
 
