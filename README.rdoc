@@ -14,12 +14,13 @@ Gemfileに以下行を追加して、bundle installコマンドを実行して�
 == 設定
 
 === 定数のラベル定義ファイルを作成
-  # config/local/ja/labels.yml
-   labels:
-     user:
-       status:
-         disable: "無効"
-         enable:  "有効"
+  # config/locale/ja/labels.yml
+   ja:
+     labels:
+       user:
+         status:
+           disable: "無効"
+           enable:  "有効"
 
 === constメソッドのブロック内で定数を定義
   class User < ActiveRecord::Base
