@@ -206,11 +206,11 @@ collection_selectの際に表示したいラベル名を複数パターン用意
 
 == その他
 
-=== I18nを利用しない
+=== デフォルトでI18nを無効にする。
 
 ConstEnum::ActiveRecord.i18nにfalseを設定すると、
 constメソッド内でラベル名を定義することができる。
-constメソッドのi18nオプションと同様
+constメソッドのi18nオプションと同様です。
 
   # config/initializers/const_enum.rb
   ConstEnum::ActiveRecord.i18n = false

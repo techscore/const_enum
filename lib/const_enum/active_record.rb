@@ -18,18 +18,19 @@ module ConstEnum
       #  :scope         named_scopeを定義します。default: true
       #  :predicate     属性値の検証メソッドを定義します。default: true
       #  :prefix        scope, predicate を作成する際のprefixを指定します。default: "#{mod_name.downcase}_"
-      #
+      #  :i18n          ラベル名にi18nを利用しない
+      # extensions: ブロック内でメソッド定義を行うことで、定数オブジェクトに対してメソッドを定義することが出来ます。
       # = exapmle
       # 
-      # class Hoge < ActiveRecord::Base
-      #   const :STATUS do
-      #     ENABLE    1, '有効'
-      #     DISABLE   0, '無効'
-      #     def code
-      #       '%05d'%value
+      #   class Hoge < ActiveRecord::Base
+      #     const :STATUS do
+      #       ENABLE    1, '有効'
+      #       DISABLE   0, '無効'
+      #       def code
+      #         '%05d'%value
+      #       end
       #     end
       #   end
-      # end
       # 
       # Hoge::STATUS::ENABLE # 1
       # Hoge::STATUS.ENABLE.value # 1
