@@ -1,11 +1,11 @@
 = const_enum
 
-ActiveRecordの定数クラス、定数名アクセサ、NamedScope、定数値判定メソッド等を簡単なDSLで作成するためのプラグイン。
+ActiveRecordの定数クラス、定数名アクセサ、NamedScope、定数値判定メソッド等を簡単なDSLで作成するためのライブラリ。
 rails3.xに対応しています。
 
 == インストール
 
-Gemfileに以下行を追加して、bundle installコマンドを実行してください。
+Gemfileに以下の行を追加して、bundle installコマンドを実行してください。
   gem 'const_enum'
 あるいは、以下のコマンドでインストールしてください。
   gem install const_enum
