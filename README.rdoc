@@ -192,7 +192,7 @@ collection_selectの際に表示したいラベル名を複数パターン用意
       end
       # I18nを使ってみる。
       def label2
-        I18n.t(key.to_s.downcase, :scope=> 'label2.modelname')
+        I18n.t(key.to_s.downcase, :scope=> 'labels.user.status_label2')
       end
     end
   end
