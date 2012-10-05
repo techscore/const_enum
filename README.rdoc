@@ -233,4 +233,4 @@ ConstEnum::ActiveRecord.label_suffixを設定することで、
 
 == Copyright
 
-Copyright (c) 2012 SynergyMarketing.inc. See LICENSE for details.
+Copyright (c) 2012 Synergy Marketing, Inc. See LICENSE for details.
