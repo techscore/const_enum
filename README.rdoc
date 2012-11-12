@@ -68,7 +68,7 @@ validates :inclusionで利用することができる。
       ENABLE    1
       DISABLE   0
     end
-    validates :status, :inclusion => STATUS
+    validates :status, :inclusion => {:in => STATUS}
   end
   
 === Viewでの利用
