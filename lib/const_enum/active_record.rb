@@ -59,8 +59,8 @@ module ConstEnum
             include ConstEnum::WithI18n
             class_eval(&block)
           end
-          clazz.i18n_options[:key] = [clazz.i18n_options[:key], self.name.underscore, attr].join('.')
           clazz.i18n_options.merge!(ConstEnum::ActiveRecord.i18n) if Hash === ConstEnum::ActiveRecord.i18n
+          clazz.i18n_options[:key] = [clazz.i18n_options[:key], self.name.underscore, attr].join('.')
           clazz.i18n_options.merge!(options[:i18n]) if Hash === options[:i18n]
         else
           clazz = const_enum(&block)
