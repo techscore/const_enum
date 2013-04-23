@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "const_enum"
-  s.version = "1.0.3"
+  s.version = "1.0.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["yuki teraoka"]
-  s.date = "2012-07-31"
+  s.date = "2013-04-23"
   s.description = "define ActiveRecord constants with DSL.and more!"
   s.email = "info@techscore.com"
   s.extra_rdoc_files = [
@@ -40,11 +40,11 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/techscore/const_enum"
   s.licenses = ["BSD"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.10"
+  s.rubygems_version = "2.0.3"
   s.summary = "define ActiveRecord constants with DSL."
 
   if s.respond_to? :specification_version then
-    s.specification_version = 3
+    s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activerecord>, [">= 3.0.0"])
