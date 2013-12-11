@@ -81,7 +81,7 @@ module ConstEnum
           clazz.each do |obj|
             key =  clazz.key(obj.value).to_s
             class_eval <<-"EOS", __FILE__, __LINE__
-              scope :#{options[:prefix]}#{key.downcase}, lambda { {:conditions => {'#{attr}' => #{clazz_name}::#{key} } }}
+              scope :#{options[:prefix]}#{key.downcase}, lambda { where('#{attr}' => #{clazz_name}::#{key}) }
             EOS
           end
         end
